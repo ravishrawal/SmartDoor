@@ -4,6 +4,9 @@ from botocore.exceptions import ClientError
 import time
 from decimal import Decimal
 from s3methods import *
+import random
+from boto3.dynamodb.conditions import Attr
+
 
 def createOrUpdateUser(faceid, name, phone_number, photo):
 
@@ -43,10 +46,10 @@ def createOrUpdateUser(faceid, name, phone_number, photo):
         #add to dynamoDB table
         try:
             response = visitors_table.put_item(Item=new_visitor)
+            print('successfully updated visitor in db')
         except ClientError as e:
             logging.error(e)
             return False
-            print('successfully updated db')
         
     return response
 
@@ -75,3 +78,35 @@ def updateUser(user, photo):
         return False
         
     return response
+
+
+def createPasscode(visitor_name, faceid=None):
+    #create 5 digit passcode
+    passcode = round(10000+89999*random.random())
+    db = boto3.client('dynamodb')
+    passcodes_table = db.Table('Passcodes')
+
+    #expiry time = 2 minutes (in seconds)
+    new_passcode = {
+                'visitor_name': visitor_name,
+                'passcode':  passcode,
+                'expiry_time': int(time.time())+120
+            }
+
+    try:    
+        response = passcodes_table.put_item(Item=new_passcode)
+        print('successfully updated passcode in db')
+    except ClientError as e:
+        logging.error(e)
+        return False
+
+    return response
+
+def getValidPasscode(visitor_name, faceid=None):
+    db = boto3.client('dynamodb')
+    passcodes_table = db.Table('Passcodes')
+
+    response = passcodes_table.scan( FilterExpression= Attr('visitor_name').eq(visitor_name) & Attr('expiry_time').gt(int(time.time())) )
+    return response['Items']['passcode']
+
+
