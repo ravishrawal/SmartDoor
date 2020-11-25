@@ -71,7 +71,7 @@ class NewVisitorForm extends Component {
               <form onSubmit={this.submitHandler}>
                 <div className="form-group">
                   <label>Visitor Name</label>
-                  <input id="name" name="visitor_name" className="form-control" onChange={this.handleKeydown} placeholder="Enter Full Name"/>
+                  <input id="name" name="visitor_name" className="form-control" onChange={this.handleKeydown} placeholder="Enter Full Name" style={{margin:"auto"}}/>
                 </div>
                 <div className="form-group">
                   <label>Visitor Phone Number</label>

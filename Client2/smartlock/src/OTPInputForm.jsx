@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
+import lockimg from './latchlock.jpg'
 
 
 class OTPInputForm extends Component {
@@ -41,16 +42,17 @@ class OTPInputForm extends Component {
     this.state.faceid = faceid
     return (
       <div>
+        <img src={lockimg} height="400px"/>
         { this.state.submitted === false &&
               (
               <form onSubmit={this.submitHandler}>
-                <div className="fcontainer" style={{ margin: "auto", maxWidth: "250px", verticalAlign:"middle"}}>
-                  <div>
+                <div className="container" style={{ margin: "auto", maxWidth: "250px", verticalAlign:"middle"}}>
+                  <div style={{ padding:"10px" }}>
                     <label className="p-2">Enter OTP:</label>
-                    <input id="passcode" name="passcode" className="form-control p-2" onChange={this.handleKeydown} placeholder="enter OTP"/>
+                    <input id="passcode" name="passcode" className="form-control p-2" onChange={this.handleKeydown} placeholder="Enter OTP" />
                   </div>
                   <div className="form-group p-2">
-                    <button className='btn btn-primary submitButton' onClick={this.submitHandler}>
+                    <button className='btn btn-primary submitButton' onClick={this.submitHandler} >
                     Submit
                     </button>
                   </div>
