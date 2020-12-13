@@ -1,5 +1,9 @@
 A scalable cloud based application for a front-door intercom system that authenticates visitors using facial recognition
 
+Authors:
+Ravish Rawal
+Viren Bajaj
+
 Technologies Used:
 
 Server:
